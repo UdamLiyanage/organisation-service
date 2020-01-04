@@ -10,13 +10,9 @@ import (
 func createOrganisation(c *gin.Context) {
 	var organisation Organisation
 	err := json.NewDecoder(c.Request.Body).Decode(&organisation)
-	if err != nil {
-		panic(err)
-	}
+	checkError(err, c)
 	insertResult, err := db.Collection.InsertOne(context.TODO(), organisation)
-	if err != nil {
-		panic(err)
-	}
+	checkError(err, c)
 	organisation.ID = insertResult.InsertedID.(primitive.ObjectID)
 	c.JSON(201, organisation)
 }
