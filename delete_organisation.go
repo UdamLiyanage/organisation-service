@@ -17,8 +17,6 @@ func deleteOrganisation(c *gin.Context) {
 	objID, err := primitive.ObjectIDFromHex(c.Param("id"))
 	filter := bson.D{{"_id", objID}}
 	_, err = db.Collection.DeleteOne(context.TODO(), filter, opts)
-	if err != nil {
-		panic(err)
-	}
+	checkError(err, c)
 	c.JSON(404, nil)
 }
