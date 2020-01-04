@@ -11,13 +11,9 @@ import (
 func updateOrganisation(c *gin.Context) {
 	var organisation Organisation
 	err := json.NewDecoder(c.Request.Body).Decode(&organisation)
-	if err != nil {
-		panic(err)
-	}
+	checkError(err, c)
 	objID, err := primitive.ObjectIDFromHex(c.Param("id"))
-	if err != nil {
-		panic(err)
-	}
+	checkError(err, c)
 	filter := bson.M{"_id": objID}
 	update := bson.M{
 		"$set": bson.M{
@@ -25,8 +21,6 @@ func updateOrganisation(c *gin.Context) {
 		},
 	}
 	_, err = db.Collection.UpdateOne(context.TODO(), filter, update)
-	if err != nil {
-		panic(err)
-	}
+	checkError(err, c)
 	c.Status(200)
 }
