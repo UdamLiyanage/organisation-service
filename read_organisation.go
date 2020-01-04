@@ -10,13 +10,9 @@ import (
 func readOrganisation(c *gin.Context) {
 	var organisation Organisation
 	objID, err := primitive.ObjectIDFromHex(c.Param("id"))
-	if err != nil {
-		panic(err)
-	}
+	checkError(err, c)
 	filter := bson.M{"_id": objID}
 	err = db.Collection.FindOne(context.TODO(), filter).Decode(&organisation)
-	if err != nil {
-		panic(err)
-	}
+	checkError(err, c)
 	c.JSON(200, organisation)
 }
