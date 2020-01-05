@@ -24,3 +24,7 @@ func attachUser(c *gin.Context) {
 	checkError(err, c)
 	c.JSON(201, res)
 }
+
+func getAttachedUsers(c *gin.Context) {
+	c.JSON(200, "Get attached users function")
+}
