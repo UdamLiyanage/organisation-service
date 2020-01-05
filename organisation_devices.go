@@ -12,9 +12,7 @@ import (
 func attachDevice(c *gin.Context) {
 	var attach AttachDevice
 	err := json.NewDecoder(c.Request.Body).Decode(&attach)
-	if err != nil {
-		panic(err)
-	}
+	checkError(err, c)
 	filter := bson.M{"_id": attach.OrganisationID}
 	update := bson.M{
 		"$addToSet": bson.M{
@@ -25,9 +23,7 @@ func attachDevice(c *gin.Context) {
 		},
 	}
 	res, err := db.Collection.UpdateOne(context.TODO(), filter, update)
-	if err != nil {
-		panic(err)
-	}
+	checkError(err, c)
 	c.JSON(201, res)
 }
 
