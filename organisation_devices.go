@@ -28,3 +28,7 @@ func attachDevice(c *gin.Context) {
 	}
 	c.JSON(201, res)
 }
+
+func getAttachedDevices(c *gin.Context) {
+	c.String(200, "Get Attached Devices")
+}
