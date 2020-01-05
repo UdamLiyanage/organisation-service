@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/bson/primitive"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func attachUser(c *gin.Context) {
@@ -26,5 +28,28 @@ func attachUser(c *gin.Context) {
 }
 
 func getAttachedUsers(c *gin.Context) {
-	c.JSON(200, "Get attached users function")
+	var res []map[string]interface{}
+	objID, err := primitive.ObjectIDFromHex(c.Param("id"))
+	if err != nil {
+		panic(err)
+	}
+	cursor, err := db.Collection.Find(
+		context.Background(),
+		bson.M{"_id": objID},
+		options.Find().SetProjection(bson.D{
+			{"users", 1},
+		}),
+	)
+	if err != nil {
+		panic(err)
+	}
+	for cursor.Next(context.TODO()) {
+		var user map[string]interface{}
+		err := cursor.Decode(&user)
+		if err != nil {
+			panic(err)
+		}
+		res = append(res, user)
+	}
+	c.JSON(200, res)
 }
