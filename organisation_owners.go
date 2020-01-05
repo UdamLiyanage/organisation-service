@@ -30,9 +30,7 @@ func attachUser(c *gin.Context) {
 func getAttachedUsers(c *gin.Context) {
 	var res []map[string]interface{}
 	objID, err := primitive.ObjectIDFromHex(c.Param("id"))
-	if err != nil {
-		panic(err)
-	}
+	checkError(err, c)
 	cursor, err := db.Collection.Find(
 		context.Background(),
 		bson.M{"_id": objID},
@@ -40,15 +38,11 @@ func getAttachedUsers(c *gin.Context) {
 			{"users", 1},
 		}),
 	)
-	if err != nil {
-		panic(err)
-	}
+	checkError(err, c)
 	for cursor.Next(context.TODO()) {
 		var user map[string]interface{}
 		err := cursor.Decode(&user)
-		if err != nil {
-			panic(err)
-		}
+		checkError(err, c)
 		res = append(res, user)
 	}
 	c.JSON(200, res)
