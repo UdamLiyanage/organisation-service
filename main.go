@@ -18,6 +18,7 @@ func setupRouter() *gin.Engine {
 	r.GET("/organisations/:id", readOrganisation)
 
 	r.POST("/organisations", createOrganisation)
+	r.POST("/organisations/attach/owner", attachOrganisation)
 
 	r.PUT("/organisations/:id", updateOrganisation)
 
