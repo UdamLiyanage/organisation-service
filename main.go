@@ -10,7 +10,11 @@ type Database struct {
 	Collection *mongo.Collection
 }
 
-var db = Database{Collection: connect()}
+var DB = Database{}
+
+func init() {
+	DB.Collection = connect()
+}
 
 func setupRouter() *gin.Engine {
 	r := gin.Default()
