@@ -20,7 +20,7 @@ func updateOrganisation(c *gin.Context) {
 			"name": organisation.Name,
 		},
 	}
-	_, err = db.Collection.UpdateOne(context.TODO(), filter, update)
+	_, err = DB.Collection.UpdateOne(context.TODO(), filter, update)
 	checkError(err, c)
 	c.Status(200)
 }
