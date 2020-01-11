@@ -42,7 +42,7 @@ func TestUpdateDeviceInvalid(t *testing.T) {
 		t.Errorf("Status should be 200, got %d", w.Code)
 	}
 	var response map[string]string
-	_ = json.Unmarshal([]byte(w.Body.String()), &response)
+	_ = json.Unmarshal(w.Body.Bytes(), &response)
 	value, exists := response["MatchedCount"]
 	if !exists {
 		t.Errorf("Wrong Response Format")
