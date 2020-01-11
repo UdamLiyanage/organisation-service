@@ -35,7 +35,7 @@ func getAttachedDevices(c *gin.Context) {
 		context.Background(),
 		bson.M{"_id": objID},
 		options.Find().SetProjection(bson.D{
-			{"devices", 1},
+			bson.E{Key: "devices", Value: 1},
 		}),
 	)
 	checkError(err, c)

@@ -35,7 +35,7 @@ func getAttachedUsers(c *gin.Context) {
 		context.Background(),
 		bson.M{"_id": objID},
 		options.Find().SetProjection(bson.D{
-			{"users", 1},
+			bson.E{Key: "users", Value: 1},
 		}),
 	)
 	checkError(err, c)
