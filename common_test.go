@@ -21,5 +21,6 @@ func newRouter() *gin.Engine {
 	r.DELETE("/organisations/:id", deleteOrganisation)
 	r.PUT("/organisations/:id", updateOrganisation)
 	r.POST("/organisations/attach/device", attachDevice)
+	r.POST("/organisations/attach/user", attachUser)
 	return r
 }
