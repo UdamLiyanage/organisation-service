@@ -27,6 +27,25 @@ func attachUser(c *gin.Context) {
 	c.JSON(201, res)
 }
 
+func removeAttachedUser(c *gin.Context) {
+	var remove map[string]string
+	err := json.NewDecoder(c.Request.Body).Decode(&remove)
+	checkError(err, c)
+	objectID, err := primitive.ObjectIDFromHex(remove["organisation_id"])
+	checkError(err, c)
+	filter := bson.M{"_id": objectID}
+	update := bson.M{
+		"$pull": bson.M{
+			"users": bson.M{
+				"user_id": remove["user_id"],
+			},
+		},
+	}
+	res, err := DB.Collection.UpdateOne(context.TODO(), filter, update)
+	checkError(err, c)
+	c.JSON(404, res)
+}
+
 func getAttachedUsers(c *gin.Context) {
 	var res []map[string]interface{}
 	objID, err := primitive.ObjectIDFromHex(c.Param("id"))
