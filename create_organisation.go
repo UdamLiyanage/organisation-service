@@ -13,6 +13,15 @@ func createOrganisation(c *gin.Context) {
 	checkError(err, c)
 	insertResult, err := DB.Collection.InsertOne(context.TODO(), organisation)
 	checkError(err, c)
-	organisation.ID = insertResult.InsertedID.(primitive.ObjectID)
+	if oid, ok := insertResult.InsertedID.(primitive.ObjectID); ok {
+		c.JSON(201, map[string]interface{}{
+			"id":      oid.String(),
+			"name":    organisation.Name,
+			"devices": organisation.Devices,
+			"users":   organisation.Users,
+		})
+	} else {
+		c.AbortWithStatus(500)
+	}
 	c.JSON(201, organisation)
 }
