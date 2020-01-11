@@ -10,7 +10,7 @@ import (
 
 func TestAttachDevice(t *testing.T) {
 	attach := AttachDevice{
-		DeviceID:       "Test_Device_ID",
+		DeviceID:       "test_id",
 		DeviceName:     "Test_Device",
 		OrganisationID: "5e11ecc919fa7f2152331103",
 	}
@@ -25,5 +25,22 @@ func TestAttachDevice(t *testing.T) {
 	r.ServeHTTP(w, req)
 	if w.Code != http.StatusCreated {
 		t.Errorf("Status should be 201, got %d", w.Code)
+	}
+}
+
+func TestRemoveDevice(t *testing.T) {
+	remove := make(map[string]string)
+	remove["organisation_id"] = "5e11ecc919fa7f2152331103"
+	remove["device_id"] = "test_id"
+	body, err := json.Marshal(&remove)
+	if err != nil {
+		t.Fatal(err)
+	}
+	r := newRouter()
+	w := httptest.NewRecorder()
+	req, _ := http.NewRequest("POST", "/organisations/remove/device", bytes.NewBuffer(body))
+	r.ServeHTTP(w, req)
+	if w.Code != http.StatusNotFound {
+		t.Errorf("Status should be 404, got %d", w.Code)
 	}
 }
