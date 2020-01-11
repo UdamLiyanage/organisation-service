@@ -8,7 +8,7 @@ import (
 	"testing"
 )
 
-func TestCreateDeviceAndDelete(t *testing.T) {
+func TestCreateOrganisationAndDelete(t *testing.T) {
 	organisation := Organisation{
 		Name:    "Test Organisation",
 		Devices: nil,
@@ -27,7 +27,7 @@ func TestCreateDeviceAndDelete(t *testing.T) {
 	}
 
 	_ = json.NewDecoder(createRecorder.Body).Decode(&organisation)
-	deleteRequest, _ := http.NewRequest("DELETE", "/organisations/"+organisation.ID.Hex(), nil)
+	deleteRequest, _ := http.NewRequest("DELETE", "/organisations/"+organisation.ID, nil)
 	deleteRecorder := httptest.NewRecorder()
 	r.ServeHTTP(deleteRecorder, deleteRequest)
 	if deleteRecorder.Code != http.StatusNotFound {
