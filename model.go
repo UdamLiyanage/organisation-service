@@ -1,7 +1,5 @@
 package main
 
-import "go.mongodb.org/mongo-driver/bson/primitive"
-
 type Organisation struct {
 	ID      string              `json:"_id,omitempty" bson:"_id,omitempty"`
 	Name    string              `json:"name" bson:"name"`
@@ -10,13 +8,13 @@ type Organisation struct {
 }
 
 type AttachOwner struct {
-	UserID         string             `json:"user_id" bson:"user_id"`
-	UserName       string             `json:"user_name" bson:"user_name"`
-	OrganisationID primitive.ObjectID `json:"organisation_id" bson:"organisation_id"`
+	UserID         string `json:"user_id" bson:"user_id"`
+	UserName       string `json:"user_name" bson:"user_name"`
+	OrganisationID string `json:"organisation_id" bson:"organisation_id"`
 }
 
 type AttachDevice struct {
-	DeviceID       string             `json:"device_id" bson:"device_id"`
-	DeviceName     string             `json:"device_name" bson:"device_name"`
-	OrganisationID primitive.ObjectID `json:"organisation_id" bson:"organisation_id"`
+	DeviceID       string `json:"device_id" bson:"device_id"`
+	DeviceName     string `json:"device_name" bson:"device_name"`
+	OrganisationID string `json:"organisation_id" bson:"organisation_id"`
 }
