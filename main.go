@@ -37,5 +37,5 @@ func setupRouter() *gin.Engine {
 
 func main() {
 	r := setupRouter()
-	log.Fatal(r.Run())
+	log.Fatal(r.Run(":8001"))
 }
